@@ -55,9 +55,9 @@ class ConferenceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Conference $conference)
     {
-        $conference = Conference::findOrFail($id);
+        auth()->user()->can('edit', $conference);
 
         return view('conferences.edit', ['conference' => $conference]);
     }
@@ -65,10 +65,8 @@ class ConferenceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Conference $conference)
     {
-        $conference = Conference::findOrFail($id);
-
         $data = request()->validate([
             'title' => ['required', 'min:3'],
         ]);
@@ -83,10 +81,8 @@ class ConferenceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Conference $conference)
     {
-        $conference = Conference::findOrFail($id);
-
         $conference->delete();
 
         return redirect(route('conferences.index'));

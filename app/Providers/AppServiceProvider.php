@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Conference;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,5 +24,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::unguard();
+
+        Gate::define('organizer', function (User $user, Conference $conference) {
+            return $user->id === $conference->user_id;
+        });
     }
 }

@@ -15,7 +15,23 @@ Route::resource('conferences', ConferenceController::class)
     ->middleware('auth');
 
 Route::resource('conferences/{conference}/talks', TalkController::class)
-    ->middleware('auth');
+    ->middleware('auth')
+    ->only(['index', 'show', 'create', 'store']);
+
+Route::get('conferences/{conference}/edit', [ConferenceController::class, 'edit'])
+    ->middleware('auth')
+    ->can('edit', 'conference')
+    ->name('conferences.edit');
+
+Route::patch('conferences/{conference}/update', [ConferenceController::class, 'update'])
+    ->middleware('auth')
+    ->can('edit', 'conference')
+    ->name('conferences.update');
+
+Route::delete('conferences/{conference}/delete', [ConferenceController::class, 'destroy'])
+    ->middleware('auth')
+    ->can('delete')
+    ->name('conferences.destroy');
 
 Route::post('/talks/{talk}/approve', ApproveTalkController::class)
     ->name('talks.approve');

@@ -19,17 +19,23 @@
                                 <span>{{ $talk['title'] }} by {{ $talk['user']['name'] }}</span>
 
                                 @if($talk->approved_at)
-                                    <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Approved</span>
+                                    <span
+                                        class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Approved</span>
                                 @else
-                                    <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Not approved yet.</span>
+                                    <span
+                                        class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Not approved yet.</span>
 
-                                    <form method="post" action="{{ route('talks.approve', $talk) }}">
-                                        @csrf
+                                    @can('organizer', $conference)
+                                        <form method="post" action="{{ route('talks.approve', $talk) }}">
+                                            @csrf
 
-                                        <button class="inline-flex items-center rounded-md bg-green-400 text-white px-2 py-1 text-xs font-medium ring-1 ring-inset ring-green-600/20" type="submit">
-                                            Approve
-                                        </button>
-                                    </form>
+                                            <button
+                                                class="inline-flex items-center rounded-md bg-green-400 text-white px-2 py-1 text-xs font-medium ring-1 ring-inset ring-green-600/20"
+                                                type="submit">
+                                                Approve
+                                            </button>
+                                        </form>
+                                    @endcan
                                 @endif
                             </li>
                         @endforeach

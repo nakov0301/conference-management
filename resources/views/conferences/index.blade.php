@@ -18,14 +18,18 @@
                                     {{ $conference['title'] }}
                                 </a>
                                 <div class="flex gap-4">
+                                    @can('edit', $conference)
                                     <a class="text-blue-400 underline"
                                        href="{{ route('conferences.edit', $conference['id']) }}">Edit</a>
+                                    @endcan
+                                    @can('delete', $conference)
                                     <form method="post" action="{{ route('conferences.destroy', $conference['id']) }}">
                                         @csrf
                                         @method('DELETE')
 
                                         <button type="submit" class="bg-red-600 px-2 rounded-md text-white">Delete</button>
                                     </form>
+                                    @endcan
                                 </div>
                             </li>
                         @endforeach
