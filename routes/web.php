@@ -5,11 +5,18 @@ use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TalkCommentController;
 use App\Http\Controllers\TalkController;
-use App\Models\Conference;
+use App\Jobs\ImportCSVConferences;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/test', function () {
+
+    ImportCSVConferences::dispatch();
+
+    return 'Done';
 });
 
 Route::resource('conferences', ConferenceController::class)

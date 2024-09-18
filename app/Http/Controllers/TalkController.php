@@ -35,7 +35,7 @@ class TalkController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        Mail::to($request->user())->send(new TalkReceived);
+        Mail::to($request->user())->queue(new TalkReceived);
 
         return redirect(route('conferences.show', $conference));
     }
