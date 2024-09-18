@@ -19,8 +19,8 @@
                                 </a>
                                 <div class="flex gap-4">
                                     <a class="text-blue-400 underline"
-                                       href="{{ route('conferences.edit', ['id' => $conference['id']]) }}">Edit</a>
-                                    <form method="post" action="{{ route('conferences.delete', ['id' => $conference['id']]) }}">
+                                       href="{{ route('conferences.edit', $conference['id']) }}">Edit</a>
+                                    <form method="post" action="{{ route('conferences.destroy', $conference['id']) }}">
                                         @csrf
                                         @method('DELETE')
 
