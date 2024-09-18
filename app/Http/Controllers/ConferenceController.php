@@ -15,7 +15,7 @@ class ConferenceController extends Controller
         return view('conferences.index', [
             'conferences' => Conference::withCount(['talks' => function ($query) {
                 $query->approved();
-            }])->get(),
+            }])->paginate(10),
         ]);
     }
 

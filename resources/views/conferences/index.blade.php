@@ -35,6 +35,7 @@
                             </li>
                         @endforeach
                     </ul>
+                    {{ $conferences->links() }}
                 </div>
             </div>
         </div>
