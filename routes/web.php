@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ApproveTalkController;
 use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TalkController;
 use App\Models\Conference;
 use Illuminate\Support\Facades\Route;
 
@@ -11,6 +13,12 @@ Route::get('/', function () {
 
 Route::resource('conferences', ConferenceController::class)
     ->middleware('auth');
+
+Route::resource('conferences/{conference}/talks', TalkController::class)
+    ->middleware('auth');
+
+Route::post('/talks/{talk}/approve', ApproveTalkController::class)
+    ->name('talks.approve');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
