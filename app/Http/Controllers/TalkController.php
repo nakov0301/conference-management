@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\TalkReceived;
 use App\Models\Conference;
 use App\Models\Talk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class TalkController extends Controller
 {
@@ -32,6 +34,8 @@ class TalkController extends Controller
             'description' => $validData['description'],
             'user_id' => auth()->id(),
         ]);
+
+        Mail::to($request->user())->send(new TalkReceived);
 
         return redirect(route('conferences.show', $conference));
     }
