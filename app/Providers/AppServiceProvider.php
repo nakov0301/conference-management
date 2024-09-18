@@ -25,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Model::unguard();
 
+        Model::shouldBeStrict(app()->isLocal());
+
         Gate::define('organizer', function (User $user, Conference $conference) {
             return $user->id === $conference->user_id;
         });

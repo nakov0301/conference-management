@@ -15,8 +15,9 @@
                         @foreach($conferences as $conference)
                             <li class="flex justify-between mb-2">
                                 <a href="{{ route('conferences.show', $conference['id']) }}">
-                                    {{ $conference['title'] }}
+                                    {{ $conference['title'] }} ( {{ $conference['talks_count'] }} )
                                 </a>
+
                                 <div class="flex gap-4">
                                     @can('edit', $conference)
                                     <a class="text-blue-400 underline"

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApproveTalkController;
 use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TalkCommentController;
 use App\Http\Controllers\TalkController;
 use App\Models\Conference;
 use Illuminate\Support\Facades\Route;
@@ -14,9 +15,13 @@ Route::get('/', function () {
 Route::resource('conferences', ConferenceController::class)
     ->middleware('auth');
 
+Route::get('/talks/{talk}', [TalkController::class, 'show'])
+    ->middleware('auth')
+    ->name('talks.show');
+
 Route::resource('conferences/{conference}/talks', TalkController::class)
     ->middleware('auth')
-    ->only(['index', 'show', 'create', 'store']);
+    ->only(['index', 'create', 'store']);
 
 Route::get('conferences/{conference}/edit', [ConferenceController::class, 'edit'])
     ->middleware('auth')
@@ -35,6 +40,9 @@ Route::delete('conferences/{conference}/delete', [ConferenceController::class, '
 
 Route::post('/talks/{talk}/approve', ApproveTalkController::class)
     ->name('talks.approve');
+
+Route::post('/talks/{talk}/comment', TalkCommentController::class)
+    ->name('talks.comment');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

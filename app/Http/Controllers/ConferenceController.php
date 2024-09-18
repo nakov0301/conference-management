@@ -13,7 +13,9 @@ class ConferenceController extends Controller
     public function index()
     {
         return view('conferences.index', [
-            'conferences' => Conference::all(),
+            'conferences' => Conference::withCount(['talks' => function ($query) {
+                $query->approved();
+            }])->get(),
         ]);
     }
 
@@ -47,6 +49,8 @@ class ConferenceController extends Controller
      */
     public function show(Conference $conference)
     {
+        $conference->load('talks.user:id,name');
+
         return view('conferences.show', [
             'conference' => $conference,
         ]);

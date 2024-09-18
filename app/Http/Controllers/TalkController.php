@@ -10,6 +10,8 @@ class TalkController extends Controller
 {
     public function show(Talk $talk)
     {
+        $talk->load('comments.user');
+
         return view('talks.show', compact('talk'));
     }
 
