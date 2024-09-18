@@ -15,7 +15,7 @@
                     </div>
                     <ul class="mt-6">
                         @foreach($conference['talks'] as $talk)
-                            <li class="flex gap-4">
+                            <li class="flex gap-4 mb-4">
                                 <a class="underline" href="{{ route('talks.show', $talk) }}">
                                     <span>{{ $talk['title'] }} by {{ $talk['user']['name'] }}</span>
                                 </a>

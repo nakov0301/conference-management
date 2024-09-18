@@ -9,12 +9,12 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <a class="text-blue-400 underline" href="{{ route('conferences.create') }}">Add Conference</a>
+                    <a class="text-blue-400 underline mb-4" href="{{ route('conferences.create') }}">Add Conference</a>
 
-                    <ul>
+                    <ul class="mt-8">
                         @foreach($conferences as $conference)
                             <li class="flex justify-between mb-2">
-                                <a href="{{ route('conferences.show', $conference['id']) }}">
+                                <a class="text-blue-400 underline" href="{{ route('conferences.show', $conference['id']) }}">
                                     {{ $conference['title'] }} ( {{ $conference['talks_count'] }} )
                                 </a>
 
