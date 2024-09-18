@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\Conference;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -8,18 +9,9 @@ Route::get('/', function () {
 });
 
 Route::get('/conferences', function () {
-   return view('conferences.index', [
-       'conferences' => [
-           [
-               'id' => 1,
-               'title' => 'Conference 2024'
-           ],
-           [
-               'id' => 2,
-               'title' => 'Conference 2025'
-           ]
-       ]
-   ]);
+    return view('conferences.index', [
+        'conferences' => Conference::all(),
+    ]);
 })->name('conferences.index');
 
 Route::get('/conferences/create', function () {
@@ -27,61 +19,51 @@ Route::get('/conferences/create', function () {
 })->name('conferences.create');
 
 Route::post('/conferences', function () {
-    dd(request()->all());
+    $data = request()->validate([
+        'title' => 'required',
+    ]);
+
+    Conference::create([
+        'title'   => $data['title'],
+        'user_id' => 1,
+    ]);
 
     return redirect(route('conferences.index'));
 })->name('conferences.store');
 
+Route::get('/conferences/{id}/edit', function ($id) {
+    $conference = Conference::findOrFail($id);
+
+    return view('conferences.edit', ['conference' => $conference]);
+})->name('conferences.edit');
+
+Route::delete('/conferences/{id}/delete', function ($id) {
+    $conference = Conference::findOrFail($id);
+
+    $conference->delete();
+
+    return redirect(route('conferences.index'));
+})->name('conferences.delete');
+
+Route::patch('/conferences/{id}', function ($id) {
+    $conference = Conference::findOrFail($id);
+
+    $data = request()->validate([
+        'title' => ['required', 'min:3'],
+    ]);
+
+    $conference->update([
+        'title'   => $data['title'],
+    ]);
+
+    return redirect(route('conferences.index'));
+})->name('conferences.update');
+
 Route::get('/conferences/{id}', function ($id) {
-    $conferences = [
-        [
-            'id' => 1,
-            'title' => 'Conference 2024',
-            'talks' => [
-                [
-                    'id' => 1,
-                    'title' => 'Talk 1',
-                    'user' => [
-                        'id' => 1,
-                        'name' => 'John Doe',
-                    ]
-                ],
-                [
-                    'id' => 2,
-                    'title' => 'Talk 2',
-                    'user' => [
-                        'id' => 2,
-                        'name' => 'Jane Doe',
-                    ]
-                ],
-            ]
-        ],
-        [
-            'id' => 2,
-            'title' => 'Conference 2025',
-            'talks' => [
-                [
-                    'id' => 3,
-                    'title' => 'Talk 1 2025',
-                    'user' => [
-                        'id' => 1,
-                        'name' => 'John Doe',
-                    ]
-                ],
-                [
-                    'id' => 4,
-                    'title' => 'Talk 2 2025',
-                    'user' => [
-                        'id' => 2,
-                        'name' => 'Jane Doe',
-                    ]
-                ],
-            ]
-        ]
-    ];
+    $conference = Conference::findOrFail($id);
 
     return view('conferences.show', [
-        'conference' => Arr::first($conferences, fn($conference) => $conference['id'] == $id),
+        'conference' => $conference,
     ]);
 })->name('conferences.show');
 

@@ -13,10 +13,20 @@
 
                     <ul>
                         @foreach($conferences as $conference)
-                            <li>
+                            <li class="flex justify-between mb-2">
                                 <a href="{{ route('conferences.show', $conference['id']) }}">
                                     {{ $conference['title'] }}
                                 </a>
+                                <div class="flex gap-4">
+                                    <a class="text-blue-400 underline"
+                                       href="{{ route('conferences.edit', ['id' => $conference['id']]) }}">Edit</a>
+                                    <form method="post" action="{{ route('conferences.delete', ['id' => $conference['id']]) }}">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit" class="bg-red-600 px-2 rounded-md text-white">Delete</button>
+                                    </form>
+                                </div>
                             </li>
                         @endforeach
                     </ul>
