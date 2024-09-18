@@ -36,7 +36,7 @@ class ConferenceController extends Controller
 
         Conference::create([
             'title'   => $data['title'],
-            'user_id' => 1,
+            'user_id' => auth()->id(),
         ]);
 
         return redirect(route('conferences.index'));
