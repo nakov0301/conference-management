@@ -14,6 +14,7 @@ use Illuminate\Queue\SerializesModels;
 
 class TalkProcessed implements ShouldBroadcastNow
 {
+
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
@@ -32,7 +33,8 @@ class TalkProcessed implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('talk-processed.' . $this->talk->id),
+//            new PrivateChannel('talk-processed.' . $this->talk->id),
+            new Channel('talk-processed'),
         ];
     }
 }
